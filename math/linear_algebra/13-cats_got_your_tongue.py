@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""Module for the function np_cat(mat1, mat2, axis=0)."""
 import numpy as np
 
 
