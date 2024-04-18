@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
-"""Module that creates a plot with all subplots"""
+"""All in One"""
 import numpy as np
 import matplotlib.pyplot as plt
 
 
 def all_in_one():
-    """
-    Function that creates a plot with all subplots
-    """
+    """All previous plots in one figure."""
     y0 = np.arange(0, 11) ** 3
 
     mean = [69, 0]
@@ -31,55 +29,50 @@ def all_in_one():
     np.random.seed(5)
     student_grades = np.random.normal(68, 15, 50)
 
-    plt.figure(figsize=(9, 9), tight_layout=True)
-    plt.suptitle('All in One')
+    fig = plt.figure(figsize=(6.4, 4.8))
+    fig.suptitle("All in One")
 
-    plt.subplot(3, 2, 1)
-    plt.plot(y0, 'r-')
+    # Plot 1
+    plt.subplot(321)
+    plt.plot(y0, color="red")
     plt.xlim(0, 10)
-    plt.xlabel('x', fontsize='x-small')
-    plt.ylabel('y', fontsize='x-small')
 
-    plt.subplot(3, 2, 2)
-    plt.scatter(x1, y1, color='magenta')
-    plt.title("Men's Height vs Weight", fontsize='x-small')
-    plt.xlabel('Height (in)', fontsize='x-small')
-    plt.ylabel('Weight (lbs)', fontsize='x-small')
+    # Plot 2
+    plt.subplot(322)
+    plt.scatter(x1, y1, color="magenta")
+    plt.xlabel("Height (in)", fontsize="x-small")
+    plt.ylabel("Weight (lbs)", fontsize="x-small")
+    plt.title("Men's Height vs Weight", fontsize="x-small")
 
-    plt.subplot(3, 2, 3)
-    plt.plot(x2, y2, 'g-')
+    # Plot 3
+    plt.subplot(323)
+    plt.plot(x2, y2)
+    plt.xlabel("Time (years)", fontsize="x-small")
+    plt.ylabel("Fraction Remaining", fontsize="x-small")
+    plt.title("Exponential Decay of C-14", fontsize="x-small")
+    plt.yscale("log")
     plt.xlim(0, 28650)
-    plt.yscale('log')
-    plt.title('Exponential Decay of C-14', fontsize='x-small')
-    plt.xlabel('Time (years)', fontsize='x-small')
-    plt.ylabel('Fraction Remaining', fontsize='x-small')
 
-    plt.subplot(3, 2, 4)
-    plt.plot(x3, y31, 'r--', label='C-14')
-    plt.plot(x3, y32, 'g-', label='Ra-226')
-    plt.legend(loc='upper right', fontsize='x-small')
-    plt.title('Decay of Radioactive Elements', fontsize='x-small')
-    plt.xlabel('Time (years)', fontsize='x-small')
-    plt.ylabel('Fraction Remaining', fontsize='x-small')
+    # Plot 4
+    plt.subplot(324)
+    plt.plot(x3, y31, color="red", linestyle="--")
+    plt.plot(x3, y32, color="green")
+    plt.xlabel("Time (years)", fontsize="x-small")
+    plt.ylabel("Fraction Remaining", fontsize="x-small")
+    plt.title("Exponential Decay of Radioactive Elements", fontsize="x-small")
+    plt.legend(["C-14", "Ra-226"])
     plt.xlim(0, 20000)
     plt.ylim(0, 1)
 
-    plt.subplot(3, 2, 5)
-    bins = range(0, 101, 10)
-    plt.hist(student_grades, bins=bins, edgecolor='black')
-    plt.title('Project A', fontsize='x-small')
-    plt.xlabel('Grades', fontsize='x-small')
-    plt.ylabel('Number of Students', fontsize='x-small')
-
-    # Final plot in a 3 x 2 grid taking two column widths
-    plt.subplot(3, 2, (5, 6))
-    bins = np.arange(0, 101, 10)
-    plt.hist(student_grades, bins=bins, edgecolor='black')
-    plt.title('Project A Distribution', fontsize='x-small')
-    plt.xlabel('Grades', fontsize='x-small')
-    plt.ylabel('Number of Students', fontsize='x-small')
-    plt.xticks(range(0, 101, 10))
+    # Plot 5
+    plt.subplot(313)
+    plt.hist(student_grades, bins=10, range=(0, 100), edgecolor="black")
+    plt.xticks(np.arange(0, 101, 10))
     plt.xlim(0, 100)
     plt.ylim(0, 30)
+    plt.xlabel("Grades", fontsize="x-small")
+    plt.ylabel("Number of Students", fontsize="x-small")
+    plt.title("Project A", fontsize="x-small")
 
+    plt.tight_layout()
     plt.show()
