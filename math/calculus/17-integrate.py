@@ -12,26 +12,30 @@ def poly_integral(poly, C=0):
         list: A new list of coefficients representing the integral
         of the polynomial
     """
-    if not all(isinstance(coef, (int, float))
-               for coef in poly) or not isinstance(C, (int, float)):
-        return None  # Check for valid input
-
-    if len(poly) == 0:
+    # Check if poly is valid
+    if not isinstance(poly, list) or not poly:
         return None
 
-    integral = [C]  # Start the new list with the integration constant
+    # Check if poly contains only integers or floats
+    if not all(isinstance(x, (int, float)) for x in poly):
+        return None
 
-    for power, coef in enumerate(poly):
-        # Calculate the new coefficient for each term
-        # Check if the division results in an integer
-        if coef % (power + 1) == 0:
-            new_coef = coef // (power + 1)
-        else:
-            new_coef = coef / (power + 1)
+    # Check if C is an integer or a float
+    if not isinstance(C, (int, float)):
+        return None
 
-        integral.append(new_coef)
+    # Handle the zero polynomial special case
+    if poly == [0]:
+        return [C]
 
-    # Remove any trailing zeros to minimize the size of the list
+    # Calculate the integral
+    integral = [C]
+    for power, coeff in enumerate(poly):
+        new_coeff = coeff / (power + 1)
+        integral.append(int(new_coeff) if new_coeff.is_integer()
+                        else new_coeff)
+
+    # Remove trailing zeros
     while len(integral) > 1 and integral[-1] == 0:
         integral.pop()
 
