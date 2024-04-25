@@ -8,7 +8,8 @@ class Node:
     Class that represents a decision tree node
     """
 
-    def __init__(self, feature=None, threshold=None, left_child=None, right_child=None, is_root=False, depth=0):
+    def __init__(self, feature=None, threshold=None, left_child=None,
+                 right_child=None, is_root=False, depth=0):
         """
         Class constructor for Node class
         Args:
@@ -85,7 +86,8 @@ class Decision_Tree():
     Class that represents a decision tree
     """
 
-    def __init__(self, max_depth=10, min_pop=1, seed=0, split_criterion="random", root=None):
+    def __init__(self, max_depth=10, min_pop=1, seed=0,
+                 split_criterion="random", root=None):
         """
         Class constructor for Decision_Tree class
         Args:
