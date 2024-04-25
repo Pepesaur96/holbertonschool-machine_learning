@@ -87,7 +87,7 @@ class Node:
         Method that returns the string representation of the current node
         """
         if self.is_leaf:  # If it's a leaf, use the leaf's string representation
-            return f"-> leaf [value={self.value}] "
+            return f"-> leaf [value={self.value}]"
 
         left_str = self.left_child.__str__() if self.left_child else ""
         right_str = self.right_child.__str__() if self.right_child else ""
@@ -98,7 +98,7 @@ class Node:
 
         node_str = (f"root [feature={self.feature}, threshold={self.threshold}]\n"
                     if self.is_root else
-                    f"-> node [feature={self.feature}, threshold={self.threshold}]")
+                    f"-> node [feature={self.feature}, threshold={self.threshold}]\n")
         return node_str + left_str + right_str
 
     def left_child_add_prefix(self, text):
