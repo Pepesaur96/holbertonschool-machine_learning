@@ -62,14 +62,16 @@ class Node:
         Returns:
             int: number of nodes below the current node
         """
-        # If we are only counting leaves and this is not a leaf, return count from children
+        # If we are only counting leaves and this is not a leaf,
+        # return count from children
         if only_leaves and not self.is_leaf:
             return (self.left_child.count_nodes_below(only_leaves=True)
                     if self.left_child else 0) + \
                 (self.right_child.count_nodes_below(only_leaves=True)
                  if self.right_child else 0)
 
-        # If we are counting all nodes, or this is a leaf node, start with 1 (this node)
+        # If we are counting all nodes, or this is a leaf node,
+        # start with 1 (this node)
         count = 1 if not only_leaves or self.is_leaf else 0
 
         # Add counts from children if they exist
@@ -107,6 +109,13 @@ class Leaf(Node):
         return self.depth
 
     def count_nodes_below(self, only_leaves=False):
+        """
+        Method that counts the number of nodes below the current node
+        Args:
+            only_leaves (bool, optional): _description_. Defaults to False.
+        Returns:
+            int: number of nodes below the current node
+        """
         return 1
 
 
