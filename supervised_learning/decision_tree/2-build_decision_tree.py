@@ -96,9 +96,9 @@ class Node:
         left_str = self.left_child_add_prefix(left_str)
         right_str = self.right_child_add_prefix(right_str)
 
-        node_str = (f"root [feature={self.feature}, threshold={self.threshold}]\n"
+        node_str = (f"root [feature={self.feature}, threshold={self.threshold}]"
                     if self.is_root else
-                    f"-> node [feature={self.feature}, threshold={self.threshold}]\n")
+                    f"-> node [feature={self.feature}, threshold={self.threshold}]")
         return node_str + left_str + right_str
 
     def left_child_add_prefix(self, text):
@@ -157,7 +157,7 @@ class Leaf(Node):
         """
         Method that returns the string representation of the current node
         """
-        return f"-> leaf [value={self.value}] "
+        return f"-> leaf [value={self.value}]"
 
 
 class Decision_Tree():
