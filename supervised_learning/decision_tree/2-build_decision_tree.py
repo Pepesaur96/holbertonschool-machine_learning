@@ -98,7 +98,7 @@ class Node:
 
         node_str = (f"root [feature={self.feature}, threshold={self.threshold}]\n"
                     if self.is_root else
-                    f"-> node [feature={self.feature}, threshold={self.threshold}]\n")
+                    f"-> node [feature={self.feature}, threshold={self.threshold}]")
         return node_str + left_str + right_str
 
     def left_child_add_prefix(self, text):
