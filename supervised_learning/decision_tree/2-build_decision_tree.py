@@ -98,24 +98,24 @@ class Node:
 
         node_str = (f"root [feature={self.feature}, threshold={self.threshold}]\n"
                     if self.is_root else
-                    f"-> node [feature={self.feature}, threshold={self.threshold}]")
+                    f"-> node [feature={self.feature}, threshold={self.threshold}]\n")
         return node_str + left_str + right_str
 
     def left_child_add_prefix(self, text):
         lines = text.split("\n")
-        new_text = "    +--" + lines[0]
+        new_text = "    +--" + lines[0] + "\n"
         for x in lines[1:]:
-            new_text += ("    |  " + x)
-        return (new_text)
+            new_text += ("    |  " + x) + "\n"
+        return new_text
 
     # Add the right_child_add_prefix function here
     def right_child_add_prefix(self, text):
         lines = text.split("\n")
-        new_text = "    +--" + lines[0]
+        new_text = "    +--" + lines[0] + "\n"
         for x in lines[1:]:
             # No vertical line continuation for the right child
-            new_text += ("       " + x)
-        return (new_text)
+            new_text += ("       " + x) + "\n"
+        return new_text
 
 
 class Leaf(Node):
