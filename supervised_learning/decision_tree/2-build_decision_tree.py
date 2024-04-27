@@ -85,7 +85,7 @@ class Node:
     def __str__(self):
         # String representation for the current node
         node_str = (f"root [feature={self.feature}, threshold={self.threshold}]\n"
-                    if self.is_root else f"node [feature={self.feature}, threshold={self.threshold}]\n")
+                    if self.is_root else f"-> node [feature={self.feature}, threshold={self.threshold}]\n")
 
         # If the node is a leaf, simply return the string representation
         if self.is_leaf:
