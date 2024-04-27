@@ -87,7 +87,7 @@ class Node:
         Method that returns the string representation of the current node
         """
         if self.is_leaf:  # If it's a leaf, use the leaf's string representation
-            return f"-> leaf [value={self.value}]"
+            return (f"-> leaf [value={self.value}] ")
 
         left_str = self.left_child.__str__() if self.left_child else ""
         right_str = self.right_child.__str__() if self.right_child else ""
@@ -157,7 +157,7 @@ class Leaf(Node):
         """
         Method that returns the string representation of the current node
         """
-        return f"-> leaf [value={self.value}]"
+        return (f"-> leaf [value={self.value}] ")
 
 
 class Decision_Tree():
