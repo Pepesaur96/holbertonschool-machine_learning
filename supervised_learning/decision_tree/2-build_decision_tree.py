@@ -106,7 +106,7 @@ class Node:
         new_text = "    +--" + lines[0] + "\n"
         for x in lines[1:]:
             new_text += ("    |  " + x) + "\n"
-        return new_text
+        return (new_text)
 
     # Add the right_child_add_prefix function here
     def right_child_add_prefix(self, text):
@@ -115,7 +115,7 @@ class Node:
         for x in lines[1:]:
             # No vertical line continuation for the right child
             new_text += ("       " + x) + "\n"
-        return new_text
+        return (new_text)
 
 
 class Leaf(Node):
