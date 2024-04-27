@@ -103,18 +103,18 @@ class Node:
 
     def left_child_add_prefix(self, text):
         lines = text.split("\n")
-        new_text = "    +--" + lines[0] + "\n"
+        new_text = "    +--" + lines[0]
         for x in lines[1:]:
-            new_text += ("    |  " + x) + "\n"
+            new_text += ("    |  " + x)
         return (new_text)
 
     # Add the right_child_add_prefix function here
     def right_child_add_prefix(self, text):
         lines = text.split("\n")
-        new_text = "    +--" + lines[0] + "\n"
+        new_text = "    +--" + lines[0]
         for x in lines[1:]:
             # No vertical line continuation for the right child
-            new_text += ("       " + x) + "\n"
+            new_text += ("       " + x)
         return (new_text)
 
 
