@@ -83,38 +83,40 @@ class Node:
         return count
 
     def __str__(self):
-        """
-        Method that returns the string representation of the current node
-        """
-        if self.is_leaf:  # If it's a leaf, use the leaf's string representation
-            return (f"-> leaf [value={self.value}] ")
-
-        left_str = self.left_child.__str__() if self.left_child else ""
-        right_str = self.right_child.__str__() if self.right_child else ""
-
-        # Adding prefixes to the child string representations
-        left_str = self.left_child_add_prefix(left_str)
-        right_str = self.right_child_add_prefix(right_str)
-
+        # String representation for the current node
         node_str = (f"root [feature={self.feature}, threshold={self.threshold}]\n"
-                    if self.is_root else
-                    f"-> node [feature={self.feature}, threshold={self.threshold}]\n")
+                    if self.is_root else f"node [feature={self.feature}, threshold={self.threshold}]\n")
+
+        # If the node is a leaf, simply return the string representation
+        if self.is_leaf:
+            return node_str
+
+        # Formatting for the left and right children
+        left_str = self.left_child_add_prefix(
+            self.left_child.__str__()) if self.left_child else ""
+        right_str = self.right_child_add_prefix(
+            self.right_child.__str__()) if self.right_child else ""
+
         return node_str + left_str + right_str
 
     def left_child_add_prefix(self, text):
         lines = text.split("\n")
+        # Adding prefix to the first line
         new_text = "    +--" + lines[0] + "\n"
-        for x in lines[1:]:
-            new_text += ("    |  " + x) + "\n"
+        # Adding prefix to the rest of the lines
+        new_text += "\n".join(["    |  " + line for line in lines[1:-1]])
+        # Append an additional newline character if there are multiple lines
+        new_text += "\n" if len(lines) > 1 else ""
         return new_text
 
-    # Add the right_child_add_prefix function here
     def right_child_add_prefix(self, text):
         lines = text.split("\n")
+        # Adding prefix to the first line
         new_text = "    +--" + lines[0] + "\n"
-        for x in lines[1:]:
-            # No vertical line continuation for the right child
-            new_text += ("       " + x) + "\n"
+        # Adding prefix to the rest of the lines
+        new_text += "\n".join(["     " + "   " + line for line in lines[1:-1]])
+        # Append an additional newline character if there are multiple lines
+        new_text += "\n" if len(lines) > 1 else ""
         return new_text
 
 
