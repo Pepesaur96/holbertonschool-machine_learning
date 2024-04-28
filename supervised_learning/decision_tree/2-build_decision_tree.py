@@ -114,7 +114,7 @@ class Node:
         # Adding prefix to the first line
         new_text = "    +--" + lines[0] + "\n"
         # Adding prefix to the rest of the lines
-        new_text += "\n".join(["     " + "   " + line for line in lines[1:-1]])
+        new_text += "\n".join(["     " + "  " + line for line in lines[1:-1]])
         # Append an additional newline character if there are multiple lines
         new_text += "\n" if len(lines) > 1 else ""
         return new_text
