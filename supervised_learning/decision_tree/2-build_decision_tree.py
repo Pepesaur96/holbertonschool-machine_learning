@@ -159,7 +159,7 @@ class Leaf(Node):
         """
         Method that returns the string representation of the current node
         """
-        return (f"-> leaf [value={self.value}] ")
+        return (f"-> leaf [value={self.value}]")
 
 
 class Decision_Tree():
