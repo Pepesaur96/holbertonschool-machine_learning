@@ -320,21 +320,25 @@ class Decision_Tree():
         self.target = target
         self.root.sub_population = np.ones_like(self.target, dtype='bool')
 
+        # definde later
         self.fit_node(self.root)
 
+        # defined in the previous task
         self.update_predict()
 
         if verbose == 1:
             print(f"""  Training finished.
-                - Depth                     : {self.depth()}
-                - Number of nodes           : {self.count_nodes()}
-                - Number of leaves          : {self.count_nodes(only_leaves=True)}
-                - Accuracy on training data : {self.accuracy(self.explanatory, self.target)}""")
+        - Depth                     : {self.depth()}
+        - Number of nodes           : {self.count_nodes()}
+        - Number of leaves          : {self.count_nodes(only_leaves=True)}
+        - Accuracy on training data : {self.accuracy(self.explanatory, self.target)}""")
 
     def np_extrema(self, arr):
+        """returns the minimum and maximum of an array"""
         return np.min(arr), np.max(arr)
 
     def random_split_criterion(self, node):
+        """returns a random feature and threshold"""
         diff = 0
         while diff == 0:
             feature = self.rng.integers(0, self.explanatory.shape[1])
@@ -346,25 +350,40 @@ class Decision_Tree():
         return feature, threshold
 
     def fit_node(self, node):
+        """fitting a node in the decision tree
+        splitting between right and left children
+        is left = feature > threshold
+        is right = feature <= threshold"""
         node.feature, node.threshold = self.split_criterion(node)
+        # to be filled out
+        left_population = self.explanatory[
+            node.sub_population, node.feature] > node.threshold
+        # to be filled out
+        right_population = self.explanatory[
+            node.sub_population, node.feature] <= node.threshold
 
-        left_population = self.explanatory[:, node.feature] > node.threshold
-        right_population = np.logical_not(left_population)
-
-        # Is left node a leaf ?
-        is_left_leaf = np.sum(left_population) < self.min_pop or node.depth == self.max_depth or np.all(
-            self.target[left_population] == self.target[left_population][0])
-
+        # Check if left node is a leaf, to be filled out
+        is_left_leaf = (
+            np.sum(left_population) < self.min_pop or
+            node.depth == self.max_depth or
+            (np.sum(left_population) > 0 and
+             np.all(self.target[left_population] ==
+                    self.target[left_population][0]))
+        )
         if is_left_leaf:
             node.left_child = self.get_leaf_child(node, left_population)
         else:
             node.left_child = self.get_node_child(node, left_population)
             self.fit_node(node.left_child)
 
-        # Is right node a leaf ?
-        is_right_leaf = is_right_leaf = np.sum(right_population) < self.min_pop or node.depth == self.max_depth or np.all(
-            self.target[right_population] == self.target[right_population][0])
-
+        # Check if right node is a leaf, to be filled out
+        is_right_leaf = (
+            np.sum(right_population) < self.min_pop or
+            node.depth == self.max_depth or
+            (np.sum(right_population) > 0 and
+             np.all(self.target[right_population] ==
+                    self.target[right_population][0]))
+        )
         if is_right_leaf:
             node.right_child = self.get_leaf_child(node, right_population)
         else:
@@ -372,6 +391,8 @@ class Decision_Tree():
             self.fit_node(node.right_child)
 
     def get_leaf_child(self, node, sub_population):
+        """returns a leaf node"""
+        # to be filled out
         value = np.argmax(np.bincount(self.target[sub_population]))
         leaf_child = Leaf(value)
         leaf_child.depth = node.depth+1
@@ -379,10 +400,13 @@ class Decision_Tree():
         return leaf_child
 
     def get_node_child(self, node, sub_population):
+        """creates a new node and returns it"""
         n = Node()
         n.depth = node.depth+1
         n.sub_population = sub_population
         return n
 
     def accuracy(self, test_explanatory, test_target):
-        return np.sum(np.equal(self.predict(test_explanatory), test_target))/test_target.size
+        """returns the accuracy of the decision tree on the test data"""
+        return np.sum(np.equal(
+            self.predict(test_explanatory), test_target))/test_target.size
