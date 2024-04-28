@@ -370,13 +370,16 @@ class Decision_Tree():
             self.explanatory[:, node.feature] > node.threshold)
         right_population = node.sub_population & ~left_population
 
-        # Ensure that left_population and right_population are the same length as self.target
+        # Ensure that left_population and right_population are the
+        # same length as self.target
         if len(left_population) != len(self.target):
             left_population = np.pad(left_population, (0, len(
-                self.target) - len(left_population)), 'constant', constant_values=(0))
+                self.target) - len(left_population)),
+                'constant', constant_values=(0))
         if len(right_population) != len(self.target):
             right_population = np.pad(right_population, (0, len(
-                self.target) - len(right_population)), 'constant', constant_values=(0))
+                self.target) - len(right_population)),
+                'constant', constant_values=(0))
 
         # Is left node a leaf ?
         is_left_leaf = (node.depth == self.max_depth - 1 or
