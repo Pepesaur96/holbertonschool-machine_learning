@@ -83,9 +83,15 @@ class Node:
         return count
 
     def __str__(self):
+        """
+        Method that returns the string representation of the current node
+        """
         # String representation for the current node
-        node_str = (f"root [feature={self.feature}, threshold={self.threshold}]\n"
-                    if self.is_root else f"-> node [feature={self.feature}, threshold={self.threshold}]\n")
+        node_str = (f"root [feature={self.feature},
+                        threshold={self.threshold}]\n"
+                    if self.is_root else
+                    f"-> node [feature={self.feature},
+                        threshold={self.threshold}]\n")
 
         # If the node is a leaf, simply return the string representation
         if self.is_leaf:
@@ -100,6 +106,7 @@ class Node:
         return node_str + left_str + right_str
 
     def left_child_add_prefix(self, text):
+        """ Add prefix to the left child """
         lines = text.split("\n")
         # Adding prefix to the first line
         new_text = "    +--" + lines[0] + "\n"
@@ -110,6 +117,7 @@ class Node:
         return new_text
 
     def right_child_add_prefix(self, text):
+        """ Add prefix to the right child """
         lines = text.split("\n")
         # Adding prefix to the first line
         new_text = "    +--" + lines[0] + "\n"
