@@ -160,7 +160,8 @@ class Node:
                 child.update_bounds_below()
 
     def update_indicator(self):
-        """Update the indicator function for the leaves below the current node."""
+        """Update the indicator function for the leaves below
+        the current node."""
 
         def is_large_enough(x):
             """Check if the input is large enough."""
