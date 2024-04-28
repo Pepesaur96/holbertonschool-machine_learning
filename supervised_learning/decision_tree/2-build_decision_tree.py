@@ -87,11 +87,9 @@ class Node:
         Method that returns the string representation of the current node
         """
         # String representation for the current node
-        node_str = (f"root [feature={self.feature},
-                        threshold={self.threshold}]\n"
+        node_str = (f"root [feature={self.feature}, threshold={self.threshold}]\n"
                     if self.is_root else
-                    f"-> node [feature={self.feature},
-                        threshold={self.threshold}]\n")
+                    f"-> node [feature={self.feature}, threshold={self.threshold}]\n")
 
         # If the node is a leaf, simply return the string representation
         if self.is_leaf:
