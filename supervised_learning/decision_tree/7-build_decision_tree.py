@@ -319,6 +319,7 @@ class Decision_Tree():
         self.predict = lambda A: np.array([self.pred(x) for x in A])
 
     def fit(self, explanatory, target, verbose=0):
+        """ Method that fits the decision tree to the training data """
         if self.split_criterion == "random":
             self.split_criterion = self.random_split_criterion
         else:
