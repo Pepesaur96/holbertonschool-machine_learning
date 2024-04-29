@@ -1,14 +1,18 @@
 #!/usr/bin/env python3
-""" Module to create a random forest """
+"""
+This module provides a Random Forest classifier that uses Decision Trees
+as its base learners. It includes methods for fitting the model to training
+data, making predictions, and calculating accuracy.
+"""
 import numpy as np
 Decision_Tree = __import__('8-build_decision_tree').Decision_Tree
 
 
 class Random_Forest():
-    """ Class to represent a random forest """
+    """ This class defines a Random Forest classifier. """
 
     def __init__(self, n_trees=100, max_depth=10, min_pop=1, seed=0):
-        """ Initializer for the random forest """
+        """ Initializes the Random Forest classifier. """
         self.numpy_predicts = []
         self.target = None
         self.numpy_preds = None
@@ -18,7 +22,7 @@ class Random_Forest():
         self.seed = seed
 
     def predict(self, explanatory):
-        """ Method to predict the target of a dataset """
+        """ Makes predictions for a given set of examples. """
         predictions = []
 
         # Generate predictions for each tree in the forest
@@ -38,7 +42,7 @@ class Random_Forest():
         return np.array(mode_predictions)
 
     def fit(self, explanatory, target, n_trees=100, verbose=0):
-        """ Method to fit the random forest """
+        """ Fits the model to the training data. """
         self.target = target
         self.explanatory = explanatory
         self.numpy_preds = []
@@ -56,19 +60,14 @@ class Random_Forest():
             leaves.append(T.count_nodes(only_leaves=True))
             accuracies.append(T.accuracy(T.explanatory, T.target))
         if verbose == 1:
-            print(f"  Training finished.")
-            print(f"    - Mean depth                     : "
-                  f"{np.array(depths).mean()}")
-            print(f"    - Mean number of nodes           : "
-                  f"{np.array(nodes).mean()}")
-            print(f"    - Mean number of leaves          : "
-                  f"{np.array(leaves).mean()}")
-            print(f"    - Mean accuracy on training data : "
-                  f"{np.array(accuracies).mean()}")
-            print(f"    - Accuracy of the forest on td   : "
-                  f"{self.accuracy(self.explanatory, self.target)}")
+            print(f"""  Training finished.
+    - Mean depth                     : {np.array(depths).mean()}
+    - Mean number of nodes           : {np.array(nodes).mean()}
+    - Mean number of leaves          : {np.array(leaves).mean()}
+    - Mean accuracy on training data : {np.array(accuracies).mean()}
+    - Accuracy of the forest on td   : {self.accuracy(self.explanatory, self.target)}""")
 
     def accuracy(self, test_explanatory, test_target):
-        """ Method to calculate the accuracy of the random forest """
+        """ Calculates the accuracy of the model on test data. """
         return np.sum(np.equal(self.predict(test_explanatory),
-                      test_target))/test_target.sizie
+                      test_target))/test_target.size
