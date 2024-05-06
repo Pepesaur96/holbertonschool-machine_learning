@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """ Module that builds, trains, and saves a neural network classifier"""
 import tensorflow.compat.v1 as tf
-tf.disable_eager_execution()
 
 
 def train(X_train, Y_train, X_valid, Y_valid, layer_sizes, activations,
