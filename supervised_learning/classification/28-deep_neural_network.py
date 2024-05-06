@@ -105,15 +105,15 @@ class DeepNeuralNetwork:
         self.__cache['A0'] = X
         L1 = self.__L
 
-        for l in range(1, L1):
-            Z = (np.matmul(self.__weights["W" + str(l)],
-                           self.__cache['A' + str(l - 1)]) +
-                 self.__weights['b' + str(l)])
+        for i in range(1, L1):
+            Z = (np.matmul(self.__weights["W" + str(i)],
+                           self.__cache['A' + str(i - 1)]) +
+                 self.__weights['b' + str(i)])
             if self.__activation == 'sig':
                 A = 1 / (1 + np.exp(-Z))
             else:
                 A = np.tanh(Z)
-            self.__cache['A' + str(l)] = A
+            self.__cache['A' + str(i)] = A
 
         Z = (np.matmul(self.__weights["W" + str(L1)],
                        self.__cache['A' + str(L1 - 1)]) +
@@ -183,18 +183,18 @@ class DeepNeuralNetwork:
         self.__weights['W' + str(L1)] -= alpha * dW
         self.__weights['b' + str(L1)] -= alpha * db
 
-        for l in range(L1 - 1, 0, -1):
+        for i in range(L1 - 1, 0, -1):
             dA = np.matmul(W_prev.T, dZ)
-            A = cache['A' + str(l)]
+            A = cache['A' + str(i)]
             if self.__activation == 'sig':
                 dZ = dA * A * (1 - A)
             else:
                 dZ = dA * (1 - (A ** 2))
-            dW = np.matmul(dZ, cache['A' + str(l - 1)].T) / m
+            dW = np.matmul(dZ, cache['A' + str(i - 1)].T) / m
             db = np.sum(dZ, axis=1, keepdims=True) / m
-            W_prev = np.copy(self.__weights['W' + str(l)])
-            self.__weights['W' + str(l)] -= alpha * dW
-            self.__weights['b' + str(l)] -= alpha * db
+            W_prev = np.copy(self.__weights['W' + str(i)])
+            self.__weights['W' + str(i)] -= alpha * dW
+            self.__weights['b' + str(i)] -= alpha * db
 
     def train(self, X, Y, iterations=5000, alpha=0.05,
               verbose=True, graph=True, step=100):
