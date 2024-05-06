@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """ Module that defines a deep neural network"""
-
 import numpy as np
 import matplotlib.pyplot as plt
 import pickle
@@ -20,8 +19,10 @@ class DeepNeuralNetwork:
                 activation: activation function for hidden layers
             Attributes:
                 L: number of layers in the network
-                cache: dictionary to hold all intermediary values of the network
-                weights: dictionary to hold all weights and biases of the network
+                cache: dictionary to hold all intermediary values of the
+                        network
+                weights: dictionary to hold all weights and biases of the
+                        network
                 activation: activation function for hidden layers
         """
         if not isinstance(nx, int):
@@ -96,8 +97,8 @@ class DeepNeuralNetwork:
             Method to calculate forward propagation of the NN
             Args:
                 X: ndarray, shape(nx,m) contains input data
-            Returns: ndarray last activation node and dictionary with all
-                        activation nodes
+            Returns: ndarray last activation node and dictionary with
+                    all activation nodes
         """
         self.__cache['A0'] = X
         L = self.__L
