@@ -103,9 +103,9 @@ class DeepNeuralNetwork:
         # store X in A0
 
         self.__cache['A0'] = X
-        L = self.__L
+        L1 = self.__L
 
-        for l in range(1, L):
+        for l in range(1, L1):
             Z = (np.matmul(self.__weights["W" + str(l)],
                            self.__cache['A' + str(l - 1)]) +
                  self.__weights['b' + str(l)])
@@ -115,11 +115,11 @@ class DeepNeuralNetwork:
                 A = np.tanh(Z)
             self.__cache['A' + str(l)] = A
 
-        Z = (np.matmul(self.__weights["W" + str(L)],
-                       self.__cache['A' + str(L - 1)]) +
-             self.__weights['b' + str(L)])
+        Z = (np.matmul(self.__weights["W" + str(L1)],
+                       self.__cache['A' + str(L1 - 1)]) +
+             self.__weights['b' + str(L1)])
         A = np.exp(Z) / np.sum(np.exp(Z), axis=0)
-        self.__cache['A' + str(L)] = A
+        self.__cache['A' + str(L1)] = A
 
         return A, self.__cache
 
@@ -170,20 +170,20 @@ class DeepNeuralNetwork:
             :param alpha: learning rate
 
         """
-        L = self.__L
+        L1 = self.__L
 
         # store m
         m = Y.shape[1]
 
         # derivative of final layer (output=self.L)
-        dZ = cache['A' + str(L)] - Y
-        dW = np.matmul(dZ, cache['A' + str(L - 1)].T) / m
+        dZ = cache['A' + str(L1)] - Y
+        dW = np.matmul(dZ, cache['A' + str(L1 - 1)].T) / m
         db = np.sum(dZ, axis=1, keepdims=True) / m
-        W_prev = np.copy(self.__weights['W' + str(L)])
-        self.__weights['W' + str(L)] -= alpha * dW
-        self.__weights['b' + str(L)] -= alpha * db
+        W_prev = np.copy(self.__weights['W' + str(L1)])
+        self.__weights['W' + str(L1)] -= alpha * dW
+        self.__weights['b' + str(L1)] -= alpha * db
 
-        for l in range(L - 1, 0, -1):
+        for l in range(L1 - 1, 0, -1):
             dA = np.matmul(W_prev.T, dZ)
             A = cache['A' + str(l)]
             if self.__activation == 'sig':
