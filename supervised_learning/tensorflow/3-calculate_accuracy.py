@@ -15,7 +15,8 @@ def calculate_accuracy(y, y_pred):
     Returns:
     A tensor containing the decimal accuracy of the prediction.
     """
-    # Find the predicted class from y_pred (assumed to be logits or probabilities)
+    # Find the predicted class from y_pred (assumed to be logits or
+    # probabilities)
     prediction = tf.argmax(y_pred, 1)
     # Find the actual class from y
     correct = tf.argmax(y, 1)
