@@ -3,6 +3,8 @@
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 
+create_layer = __import__('1-create_layer').create_layer
+
 
 def forward_prop(x, layer_sizes=[], activations=[]):
     """
@@ -14,8 +16,7 @@ def forward_prop(x, layer_sizes=[], activations=[]):
     Returns:
         the prediction of the network in tensor form
     """
-    create_layer = __import__('1-create_layer').create_layer
     prediction = x
-    for i in range(len(layer_sizes)):
-        prediction = create_layer(prediction, layer_sizes[i], activations[i])
+    for i, (size, activation) in enumerate(zip(layer_sizes, activations)):
+        input_data = create_layer(input_data, size, activation)
     return prediction
