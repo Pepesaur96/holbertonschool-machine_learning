@@ -9,8 +9,10 @@ def calculate_loss(y, y_pred):
     Calculates the softmax cross-entropy loss of a prediction.
 
     Parameters:
-    y -- TensorFlow placeholder for the labels of the input data, one-hot encoded.
-    y_pred -- TensorFlow tensor containing the network's predictions (logits before softmax).
+    y -- TensorFlow placeholder for the labels of the input data,
+            one-hot encoded.
+    y_pred -- TensorFlow tensor containing the network's predictions
+            (logits before softmax).
 
     Returns:
     A tensor containing the loss of the prediction.
