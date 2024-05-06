@@ -9,8 +9,10 @@ def forward_prop(x, layer_sizes=[], activations=[]):
 
     Parameters:
     x -- TensorFlow placeholder for the input data.
-    layer_sizes -- List containing the number of nodes in each layer of the network.
-    activations -- List containing the activation functions for each layer of the network.
+    layer_sizes -- List containing the number of nodes in each layer
+                    of the network.
+    activations -- List containing the activation functions for each
+                    layer of the network.
 
     Returns:
     TensorFlow tensor that represents the output of the network.
