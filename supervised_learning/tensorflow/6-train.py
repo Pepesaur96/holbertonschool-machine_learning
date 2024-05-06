@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
-"""
-Module that builds, trains and saves a neural network classifier
-"""
-import tensorflow as tf
+"""Training module"""
+
+import tensorflow.compat.v1 as tf
 calculate_accuracy = __import__('3-calculate_accuracy').calculate_accuracy
 calculate_loss = __import__('4-calculate_loss').calculate_loss
 create_placeholders = __import__('0-create_placeholders').create_placeholders
@@ -12,45 +11,36 @@ forward_prop = __import__('2-forward_prop').forward_prop
 
 def train(X_train, Y_train, X_valid, Y_valid, layer_sizes, activations,
           alpha, iterations, save_path="/tmp/model.ckpt"):
-    """
-    a function builds, trains and saves a neural network classifier
-    """
-    x, y = create_placeholders(X_train.shape[1], Y_train.shape[1])
-    tf.add_to_collection("x", x)
-    tf.add_to_collection("y", y)
-
+    """Builds, trains, and saves a neural network classifier"""
+    m, nx = X_train.shape
+    classes = Y_train.shape[1]
+    x, y = create_placeholders(nx, classes)
     y_pred = forward_prop(x, layer_sizes, activations)
-    tf.add_to_collection("y_pred", y_pred)
-
     loss = calculate_loss(y, y_pred)
-    tf.add_to_collection("loss", loss)
-
     accuracy = calculate_accuracy(y, y_pred)
-    tf.add_to_collection("accuracy", accuracy)
-
-    training = create_train_op(loss, alpha)
-    tf.add_to_collection("train", train)
-
-    init = tf.global_variables_initializer()
+    train_op = create_train_op(loss, alpha)
+    init_op = tf.global_variables_initializer()
     saver = tf.train.Saver()
-
     with tf.Session() as sess:
-        sess.run(init)
+        sess.run(init_op)
+        tf.add_to_collection("x", x)
+        tf.add_to_collection("y", y)
+        tf.add_to_collection("y_pred", y_pred)
+        tf.add_to_collection("loss", loss)
+        tf.add_to_collection("accuracy", accuracy)
+        tf.add_to_collection("train_op", train_op)
         for i in range(iterations + 1):
-            # cost and accuracy for training and validation sets
-            cost_train = sess.run(loss, feed_dict={x: X_train, y: Y_train})
-            accuracy_train = sess.run(accuracy,
-                                      feed_dict={x: X_train, y: Y_train})
-            cost_val = sess.run(loss, feed_dict={x: X_valid, y: Y_valid})
-            accuracy_val = sess.run(accuracy,
-                                    feed_dict={x: X_valid, y: Y_valid})
+            training_loss, training_acc = sess.run(
+                [loss, accuracy], feed_dict={x: X_train, y: Y_train})
+            valid_loss, valid_acc = sess.run(
+                [loss, accuracy], feed_dict={x: X_valid, y: Y_valid})
             if i % 100 == 0 or i == iterations:
                 print("After {} iterations:".format(i))
-                print("\tTraining Cost: {}".format(cost_train))
-                print("\tTraining Accuracy: {}".format(accuracy_train))
-                print("\tValidation Cost: {}".format(cost_val))
-                print("\tValidation Accuracy: {}".format(accuracy_val))
-            # training for each iteration
+                print("\tTraining Cost: {}".format(training_loss))
+                print("\tTraining Accuracy: {}".format(training_acc))
+                print("\tValidation Cost: {}".format(valid_loss))
+                print("\tValidation Accuracy: {}".format(valid_acc))
             if i < iterations:
-                sess.run(training, feed_dict={x: X_train, y: Y_train})
-        return saver.save(sess, save_path)
+                sess.run(train_op, feed_dict={x: X_train, y: Y_train})
+        save_path = saver.save(sess, save_path)
+    return save_path
