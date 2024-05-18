@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """creates mini-batches to be used for training a neural network
 using mini-batch gradient descent"""
-import numpy as np
 
 
 def create_mini_batches(X, Y, batch_size):
