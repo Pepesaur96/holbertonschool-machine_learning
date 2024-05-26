@@ -9,9 +9,9 @@ A confusion matrix is a table used to evaluate the performance of a classificati
 
 Here's how the confusion matrix looks:
 
-    Predicted Positive	Predicted Negative
-    Actual Positive	TP	FN
-    Actual Negative	FP	TN
+                        Predicted Positive	Predicted Negative
+    Actual Positive	    TP	                FN
+    Actual Negative	    FP	                TN
 
 # What is Type I Error? Type II Error?
 
@@ -21,16 +21,13 @@ Here's how the confusion matrix looks:
 # What is Sensitivity? Specificity? Precision? Recall?
 
 - Sensitivity (Recall): The ability of a model to correctly identify all positive instances.
-  Sensitivity = 𝑇𝑃
-  𝑇𝑃+𝐹𝑁
+  Sensitivity = 𝑇𝑃 / 𝑇𝑃+𝐹𝑁
 
 - Specificity: The ability of a model to correctly identify all negative instances.
-  Specificity = 𝑇𝑁
-  𝑇𝑁+𝐹𝑃
+  Specificity = 𝑇𝑁 / 𝑇𝑁+𝐹𝑃
 
 - Precision: The ability of a model to correctly identify positive instances.
-  Precision = 𝑇𝑃
-  𝑇𝑃+𝐹𝑃
+  Precision = 𝑇𝑃 / 𝑇𝑃+𝐹𝑃
 
 - Recall: The ability of a model to correctly identify positive instances.
 
@@ -38,8 +35,7 @@ Here's how the confusion matrix looks:
 
 The F1 score is the harmonic mean of precision and recall. It is a measure of a test's accuracy, balancing the trade-off between precision and recall.
 
-𝐹1 = 2 × Precision × Recall
-Precision + Recall
+𝐹1 = 2 × Precision × Recall / Precision + Recall
 
 # ​What is Bias? Variance?
 
