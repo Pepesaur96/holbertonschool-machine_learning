@@ -19,18 +19,14 @@ def convolve_grayscale_valid(images, kernel):
     Returns:
     A numpy.ndarray containing the convolved images
     """
-    m, h, w = images.shape
-    kh, kw = kernel.shape
-    output_h = h - kh + 1
-    output_w = w - kw + 1
-
-    convolved_images = np.zeros((m, output_h, output_w))
-
-    for i in range(m):
-        for x in range(output_h):
-            for y in range(output_w):
-                convolved_images[i, x, y] = np.sum(
-                    images[i, x:x+kh, y:y+kw] * kernel
-                )
-
-    return convolved_images
+    m, hm, wm = images.shape
+    hk, wk = kernel.shape
+    ch = hm - hk + 1
+    cw = wm - wk + 1
+    convoluted = np.zeros((m, ch, cw))
+    for h in range(ch):
+        for w in range(cw):
+            square = images[:, h: h + hk, w: w + wk]
+            insert = np.sum(square * kernel, axis=1).sum(axis=1)
+            convoluted[:, h, w] = insert
+    return convoluted
