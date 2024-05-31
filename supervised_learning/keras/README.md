@@ -165,20 +165,20 @@ HDF5 (Hierarchical Data Format version 5) is a file format and set of tools for 
 
 - Saving Weights:
 
-  model.save_weights('model_weights.h5')
+        model.save_weights('model_weights.h5')
 
 - Loading Weights:
 
-  model.load_weights('model_weights.h5')
+      model.load_weights('model_weights.h5')
 
 - Saving the Entire Model:
 
-  model.save('model.h5')
+      model.save('model.h5')
 
 - Loading the Entire Model:
 
-  from keras.models import load_model
+      from keras.models import load_model
 
-  model = load_model('model.h5')
+      model = load_model('model.h5')
 
 These steps provide a comprehensive overview of how to work with Keras to build, train, and manage deep learning models effectively. Happy modeling!
