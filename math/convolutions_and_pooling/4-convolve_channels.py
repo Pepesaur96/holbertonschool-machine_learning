@@ -29,18 +29,23 @@ def convolve_channels(images, kernel, padding='same', stride=(1, 1)):
     kh, kw, kc = kernel.shape
     m, hm, wm, cm = images.shape
     sh, sw = stride
+    # padding for same convolution
     if padding == 'same':
         ph = int(((hm - 1) * sh + kh - hm) / 2) + 1
         pw = int(((wm - 1) * sw + kw - wm) / 2) + 1
+    # padding for valid convolution
     elif padding == 'valid':
         ph = 0
         pw = 0
+    # custom padding
     else:
         ph, pw = padding
+    # creating the output matrix with shape (m, hm, wm)
     padded = np.pad(images, ((0, 0), (ph, ph), (pw, pw), (0, 0)), 'constant')
     ch = int((hm + 2 * ph - kh) / sh) + 1
     cw = int((wm + 2 * pw - kw) / sw) + 1
     convoluted = np.zeros((m, ch, cw))
+    # iterating over the images and applying the kernel
     for h in range(ch):
         for w in range(cw):
             square = padded[:, h * sh: h * sh + kh, w * sw: w * sw + kw, :]

@@ -28,9 +28,11 @@ def pool(images, kernel_shape, stride, mode='max'):
     m, hm, wm, cm = images.shape
     kh, kw = kernel_shape
     sh, sw = stride
+    # creating the output matrix with shape (m, hm, wm, cm)
     ch = int((hm - kh) / sh) + 1
     cw = int((wm - kw) / sw) + 1
     convoluted = np.zeros((m, ch, cw, cm))
+    # iterating over the images and applying the kernel
     for h in range(ch):
         for w in range(cw):
             square = images[:, h * sh: h * sh + kh, w * sw: w * sw + kw, :]

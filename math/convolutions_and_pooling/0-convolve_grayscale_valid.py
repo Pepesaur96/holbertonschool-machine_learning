@@ -23,7 +23,9 @@ def convolve_grayscale_valid(images, kernel):
     hk, wk = kernel.shape
     ch = hm - hk + 1
     cw = wm - wk + 1
+    # creating the output matrix with shape (m, ch, cw)
     convoluted = np.zeros((m, ch, cw))
+    # iterating over the images and applying the kernel
     for h in range(ch):
         for w in range(cw):
             square = images[:, h: h + hk, w: w + wk]

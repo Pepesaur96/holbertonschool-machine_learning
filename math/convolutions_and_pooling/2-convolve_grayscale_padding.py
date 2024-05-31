@@ -29,7 +29,9 @@ def convolve_grayscale_padding(images, kernel, padding):
     padded = np.pad(images, ((0, 0), (ph, ph), (pw, pw)), 'constant')
     ch = hm + (2 * ph) - kh + 1
     cw = wm + (2 * pw) - kw + 1
+    # creating the output matrix with shape (m, ch, cw)
     convoluted = np.zeros((m, ch, cw))
+    # iterating over the images and applying the kernel
     for h in range(ch):
         for w in range(cw):
             square = padded[:, h: h + kh, w: w + kw]

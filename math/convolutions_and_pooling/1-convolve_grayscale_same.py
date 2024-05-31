@@ -21,10 +21,13 @@ def convolve_grayscale_same(images, kernel):
     """
     kh, kw = kernel.shape
     m, hm, wm = images.shape
+    # padding for same convolution
     ph = int(kh / 2)
     pw = int(kw / 2)
+    # creating the output matrix with shape (m, hm, wm)
     padded = np.pad(images, ((0, 0), (ph, ph), (pw, pw)), 'constant')
     convoluted = np.zeros((m, hm, wm))
+    # iterating over the images and applying the kernel
     for h in range(hm):
         for w in range(wm):
             square = padded[:, h: h + kh, w: w + kw]
