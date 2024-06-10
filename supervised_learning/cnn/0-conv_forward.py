@@ -1,27 +1,58 @@
 #!/usr/bin/env python3
-
-import matplotlib.pyplot as plt
+"""This module preforms forwarsd propagation over a
+convutional layer of a neural network"""
 import numpy as np
-conv_forward = __import__('0-conv_forward').conv_forward
 
-if __name__ == "__main__":
-    np.random.seed(0)
-    lib = np.load('../data/MNIST.npz')
-    X_train = lib['X_train']
-    m, h, w = X_train.shape
-    X_train_c = X_train.reshape((-1, h, w, 1))
 
-    W = np.random.randn(3, 3, 1, 2)
-    b = np.random.randn(1, 1, 1, 2)
+def conv_forward(A_prev, W, b, activation, padding="same", stride=(1, 1)):
+    """
+    Performs forward propagation over a convolutional layer of a
+    neural network.
 
-    def relu(Z):
-        return np.maximum(Z, 0)
+    Parameters:
+    A_prev (numpy.ndarray): The output of the previous layer
+    with shape (m, h_prev, w_prev, c_prev).
+    W (numpy.ndarray): The kernels for the convolution with
+    shape (kh, kw, c_prev, c_new).
+    b (numpy.ndarray): The biases applied to the convolution with
+    shape (1, 1, 1, c_new).
+    activation (function): An activation function applied to the convolution.
+    padding (str): The type of padding used, either 'same' or 'valid'.
+    stride (tuple): The strides for the convolution, (sh, sw).
 
-    plt.imshow(X_train[0])
-    plt.show()
-    A = conv_forward(X_train_c, W, b, relu, padding='valid')
-    print(A.shape)
-    plt.imshow(A[0, :, :, 0])
-    plt.show()
-    plt.imshow(A[0, :, :, 1])
-    plt.show()
+    Returns:
+    The output of the convolutional layer.
+    """
+    # Extract dimensions from A_prev's shape
+    m, h_prev, w_prev, c_prev = A_prev.shape
+
+    # Extract dimensions from W's shape
+    kh, kw, _, c_new = W.shape
+
+    # Extract strides
+    sh, sw = stride
+
+    # Calculate padding for 'same' and 'valid'
+    if padding == 'same':
+        ph = int(((h_prev - 1) * sh - h_prev + kh) / 2)
+        pw = int(((w_prev - 1) * sw - w_prev + kw) / 2)
+    elif padding == 'valid':
+        ph, pw = 0, 0
+
+    # Initialize output with zeros
+    output = np.zeros((m, int((h_prev - kh + 2 * ph) // sh) + 1,
+                       int((w_prev - kw + 2 * pw) // sw) + 1, c_new))
+
+    # Pad A_prev
+    A_prev = np.pad(A_prev, ((0, 0), (ph, ph), (pw, pw), (0, 0)), 'constant')
+
+    # Convolve the input with the kernel and apply activation function
+    for i in range(output.shape[1]):
+        for j in range(output.shape[2]):
+            for k in range(c_new):
+                slice_A_prev = \
+                    A_prev[:, i * sh: i * sh + kh, j * sw: j * sw + kw, :]
+                conv = (W[..., k] * slice_A_prev).sum(axis=(1, 2, 3))
+                output[:, i, j, k] = activation(conv + b[..., k])
+
+    return output
