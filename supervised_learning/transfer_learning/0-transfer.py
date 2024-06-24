@@ -3,9 +3,6 @@
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow import keras as K
 
-# To fix issue with saving keras applications
-K.learning_phase = K.backend.learning_phase
-
 # Load CIFAR-10 data
 (x_train, y_train), (x_test, y_test) = K.datasets.cifar10.load_data()
 
@@ -35,7 +32,8 @@ if __name__ == "__main__":
 
     # Define input layer and resize images to fit InceptionV3 input
     inputs = K.Input(shape=(32, 32, 3))
-    resized_input = K.layers.Resizing(299, 299)(inputs)
+    resized_input = K.layers.Lambda(lambda image: K.backend.resize_images(
+        image, 299 // 32, 299 // 32, 'channels_last'))(inputs)
 
     # Load pre-trained InceptionV3 model
     base_model = K.applications.InceptionV3(
@@ -44,7 +42,7 @@ if __name__ == "__main__":
     base_model.trainable = True  # Allow the base model to be trainable
 
     # Fine-tune from this layer onwards
-    for layer in base_model.layers[:249]:
+    for layer in base_model.layers[:-5]:  # Freeze all but the last 5 layers
         layer.trainable = False
 
     # Add custom layers on top of the base model
@@ -82,7 +80,7 @@ if __name__ == "__main__":
         monitor='val_loss', factor=0.2, patience=5, min_lr=0.00001
     )
     model_checkpoint = K.callbacks.ModelCheckpoint(
-        'cifar10_inceptionv3_best.h5', save_best_only=True, monitor='val_loss'
+        'cifar10_best.h5', save_best_only=True, monitor='val_loss'
     )
 
     # Train the model
@@ -95,9 +93,10 @@ if __name__ == "__main__":
     )
 
     # Save the final model
-    model.save('cifar10_inceptionv3.h5')
+    model.save('cifar10.h5')
 
 # Load the best model and evaluate
-model = K.models.load_model('cifar10_inceptionv3_best.h5')
-X_p, Y_p = preprocess_data(X, Y)
-model.evaluate(X_p, Y_p, batch_size=128, verbose=1)
+if __name__ == "__main__":
+    model = K.models.load_model('cifar10_best.h5')
+    X_p, Y_p = preprocess_data(x_test, y_test)
+    model.evaluate(X_p, Y_p, batch_size=128, verbose=1)
