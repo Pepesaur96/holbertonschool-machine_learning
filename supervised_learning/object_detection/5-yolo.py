@@ -310,3 +310,55 @@ class Yolo:
             if image is not None:
                 images.append(image)
         return (images, images_paths)
+
+    def preprocess_images(self, images):
+        """
+        Preprocess a list of images for model input.
+
+        This function resizes and rescales the images to the input
+        dimensions expected by the model,
+        and normalizes their pixel values to the range [0, 1].
+
+        Parameters:
+        - images (list of np.ndarray): List of images to preprocess.
+        Each image is represented as a numpy array.
+
+        Returns:
+        - tuple: A tuple containing two elements:
+            - np.ndarray: An array of preprocessed images ready for
+            model input.
+            - np.ndarray: An array of the original shapes of the
+            images before preprocessing.
+        """
+
+        # Initialize lists to store preprocessed images
+        # and their original shapes
+        pimages = []
+        image_shapes = []
+
+        # Retrieve input dimensions from the model
+        # TensorFlow 1.x syntax (for compatibility)
+        input_width = self.model.input.shape[1]
+        input_height = self.model.input.shape[2]
+
+        # Loop through each image in the input list
+        for image in images:
+            # Append the original shape (height, width) of the
+            # image to image_shapes list
+            image_shapes.append(np.array([image.shape[0], image.shape[1]]))
+            # Resize the image to the input dimensions of the
+            # model using cubic interpolation
+            pimage = cv2.resize(image, (
+                input_width, input_height), interpolation=cv2.INTER_CUBIC)
+            # Rescale the pixel values of the image to the range [0, 1]
+            pimage = pimage / 255.0
+            # Append the preprocessed image to the pimages list
+            pimages.append(pimage)
+
+        # Convert the lists of preprocessed images and their
+        # original shapes to numpy arrays
+        image_shapes = np.array(image_shapes)
+        pimages = np.array(pimages)
+
+        # Return the preprocessed images and their original shapes
+        return (pimages, image_shapes)
