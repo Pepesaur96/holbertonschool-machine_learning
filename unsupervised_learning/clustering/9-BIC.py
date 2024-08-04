@@ -27,7 +27,7 @@ def BIC(X, kmin=1, kmax=None, iterations=1000, tol=1e-5, verbose=False):
         for each cluster size tested
     """
     if kmax is None:
-	    kmax = X.shape[0]
+        kmax = X.shape[0]
 	
     n, d = X.shape
     log_likelihoods = []
