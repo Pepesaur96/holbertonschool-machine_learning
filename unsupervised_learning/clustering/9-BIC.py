@@ -26,38 +26,28 @@ def BIC(X, kmin=1, kmax=None, iterations=1000, tol=1e-5, verbose=False):
         b: numpy.ndarray of shape (kmax - kmin + 1) containing the BIC value
         for each cluster size tested
     """
-	 # Step 1: Set kmax to the number of data points if it is None
-    if kmax is None:
-        kmax = X.shape[0]
-    
-    # Step 2: Initialize variables
-    n, d = X.shape
-    log_likelihoods = []
-    bics = []
-    best_k = None
-    best_result = None
-    
-    # Step 3: Loop through cluster sizes from kmin to kmax
-    for k in range(kmin, kmax + 1):
-        # Step 4: Run the EM algorithm for the current number of clusters
-        pi, m, S, g, log_likelihood = expectation_maximization(X, k, iterations, tol, verbose)
-        log_likelihoods.append(log_likelihood)
-        
-        # Step 5: Calculate the number of parameters for the current model
-        p = k * d + k * d * (d + 1) / 2 + k - 1
-        
-        # Step 6: Calculate the BIC value for the current model
-        bic = p * np.log(n) - 2 * log_likelihood
-        bics.append(bic)
-        
-        # Step 7: Update the best model if the current BIC is lower than the previous best
-        if best_k is None or bic < bics[best_k - kmin]:
-            best_k = k
-            best_result = (pi, m, S)
-    
-    # Step 8: Return None if no best model was found
-    if best_k is None:
-        return None, None, None, None
-    
-    # Step 9: Return the best number of clusters, the best EM results, log likelihoods, and BIC values
-    return best_k, best_result, np.array(log_likelihoods), np.array(bics)
+	if kmax is None:
+		kmax = X.shape[0]
+	
+	n, d = X.shape
+	log_likelihoods = []
+	bics = []
+	best_k = None
+	best_result = None
+	
+	for k in range(kmin, kmax + 1):
+		pi, m, S, g, log_likelihood = expectation_maximization(X, k, iterations, tol, verbose)
+		log_likelihoods.append(log_likelihood)
+		
+		p = k * d + k * d * (d + 1) / 2 + k - 1
+		bic = p * np.log(n) - 2 * log_likelihood
+		bics.append(bic)
+		
+		if best_k is None or bic < bics[best_k - kmin]:
+			best_k = k
+			best_result = (pi, m, S)
+	
+	if best_k is None:
+		return None, None, None, None
+	
+	return best_k, best_result, np.array(log_likelihoods), np.array(bics)
