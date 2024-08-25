@@ -2,6 +2,7 @@
 """This modlue contains the class GaussianProcess"""
 import numpy as np
 
+
 class GaussianProcess:
     """Class that instantiates a noiseless 1D Gaussian process"""
 
