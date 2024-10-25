@@ -54,7 +54,7 @@ def autoencoder(input_dims, filters, latent_dims):
             # print(f"outputs: {outputs.get_config()}")
             # print(f"---" * 20)
         else:
-            # If it is not the first layer, set the output of the 
+            # If it is not the first layer, set the output of the
             # previous layer
             outputs = layer(outputs)
         # Print for data visualization
