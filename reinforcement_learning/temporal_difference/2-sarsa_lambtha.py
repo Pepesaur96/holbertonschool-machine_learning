@@ -3,6 +3,17 @@
 import numpy as np
 
 def epsilon_greedy_policy(Q, state, epsilon):
+    """
+    Uses epsilon-greedy to determine the next action.
+
+    Args:
+        Q: numpy.ndarray of shape (s,a) containing the Q table
+        state: current state
+        epsilon: threshold for epsilon-greedy
+
+    Returns:
+        the next action
+    """
     if np.random.rand() < epsilon:
         return np.random.randint(Q.shape[1])
     else:
@@ -33,7 +44,7 @@ def sarsa_lambtha(env, Q, lambtha, episodes=5000, max_steps=100, alpha=0.1, gamm
         eligibility_traces = np.zeros_like(Q)
         
         for step in range(max_steps):
-            next_state, reward, done, _, _ = env.step(action)
+            next_state, reward, terminated, truncated, _ = env.step(action)
             next_action = epsilon_greedy_policy(Q, next_state, epsilon)
             
             delta = reward + gamma * Q[next_state, next_action] - Q[state, action]
