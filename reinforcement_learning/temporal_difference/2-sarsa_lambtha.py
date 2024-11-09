@@ -23,9 +23,9 @@ def sarsa_lambtha(env, Q, lambtha, episodes=5000, max_steps=100, alpha=0.1, gamm
     """
 
     def epsilon_greedy(state, epsilon):
-        if np.random.uniform(0, 1) < epsilon:
-            return np.random.choice(env.action_space.n)  # random action
-        return np.argmax(Q[state])  # best action according to Q
+        if np.random.rand() < epsilon:
+            return np.random.choice(env.action_space.n)  # explore
+        return np.argmax(Q[state])  # exploit
 
     for episode in range(episodes):
         state = env.reset()[0]  # reset environment and get initial state
@@ -34,10 +34,8 @@ def sarsa_lambtha(env, Q, lambtha, episodes=5000, max_steps=100, alpha=0.1, gamm
 
         for step in range(max_steps):
             next_state, reward, done, _, _ = env.step(action)  # perform action
-
-            # Select next action using epsilon-greedy policy
-            next_action = epsilon_greedy(next_state, epsilon)
-
+            next_action = epsilon_greedy(next_state, epsilon)  # epsilon-greedy next action
+            
             # Compute TD error (delta)
             delta = reward + gamma * Q[next_state, next_action] * (1 - done) - Q[state, action]
 
@@ -46,9 +44,9 @@ def sarsa_lambtha(env, Q, lambtha, episodes=5000, max_steps=100, alpha=0.1, gamm
 
             # Update Q-values and eligibility traces for all state-action pairs
             Q += alpha * delta * eligibility_trace
-            eligibility_trace *= gamma * lambtha  # decay eligibility traces
+            eligibility_trace *= gamma * lambtha  # decay eligibility traces for all pairs
 
-            # Transition to next state and action
+            # Move to the next state and action
             state = next_state
             action = next_action
 
