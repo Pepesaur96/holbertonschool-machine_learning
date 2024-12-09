@@ -7,10 +7,11 @@ import tensorflow as tf
 
 def crop_image(image, size):
     """
-    Performs a random crop of an image.    
+    Performs a random crop of an image.
     Args:
         image: A 3D tf.Tensor containing the image to crop.
-        size: A tuple (height, width, channels) representing the size of the crop.
+        size: A tuple (height, width, channels) representing
+        the size of the crop.
     Returns:
         A 3D tf.Tensor of the cropped image.
     """
