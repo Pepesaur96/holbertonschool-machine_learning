@@ -16,4 +16,4 @@ def change_hue(image, delta):
     Returns:
         A 3D tf.Tensor of the hue-adjusted image.
     """
-    return tf.image.random_hue(image, delta)
+    return tf.image.adjust_hue(image, delta)
